@@ -19,7 +19,7 @@ right_bt = PhotoImage(file="images/right.png")
 button_right = Button(image=right_bt, highlightthickness=0)
 button_right.grid(column=2,row=2)
 
-foreign_text = canvas.create_text(425,150, text="Japanese", fill="black", font=("Ariel", 40, "italic"))
+foreign_text = canvas.create_text(425,150, text="French", fill="black", font=("Ariel", 40, "italic"))
 canvas.grid(column=1,row=1)
 
 english_text = canvas.create_text(425,263, text="English", fill="black", font=("Ariel", 60, "bold"))
