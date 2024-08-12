@@ -9,15 +9,37 @@ BACKGROUND_COLOR = "#B1DDC6"
 countdown_timer = None
 DF = pd.read_csv('data/french_words.csv')
 dict = DF.to_dict(orient="records")
+
+
+
+
 CHOSEN_WORD = None
 CHOSEN_WORD_DICT = {}
 PATH = r"D:\Projects\Python\100day_challenge\projects\31day\data\words_to_learn.csv"
 
+        
+def generate_words_to_learn():
+    global CHOSEN_WORD, countdown_timer
+
+    DF_TO_LEARN = pd.read_csv('data/words_to_learn.csv')
+    dict_to_learn = DF_TO_LEARN.to_dict(orient="records")
+    window.after_cancel(countdown_timer)
+
+    print(f"{dict_to_learn} aaaa from word to learn")
+    CHOSEN_WORD = random.choice(dict_to_learn)
+    front_card()
+    countdown_timer = window.after(3000,back_card)
+    
+    print(f'{CHOSEN_WORD}')
+
 def check_words_to_learn_exist():
     global DF
     if os.path.exists(PATH) == True:
-        DF = pd.read_csv('data/words_to_learn.csv')
-        print(DF)
+        print("naa")
+        generate_words_to_learn()
+    else:
+        print("wala")
+        generate_words()
 
 
 
@@ -34,7 +56,6 @@ def front_card():
 
 
 def generate_words():
- 
     global CHOSEN_WORD, countdown_timer
     window.after_cancel(countdown_timer)
     CHOSEN_WORD = random.choice(dict)
@@ -52,38 +73,16 @@ def generate_words():
  
 
 def remove_word():
-    check_words_to_learn_exist()
+    # check_words_to_learn_exist()
     if CHOSEN_WORD in dict:
         dict.remove(CHOSEN_WORD)
         df = pd.DataFrame(dict)
-        df.to_csv("data/words_to_learn.csv", mode='w', index=False, header=False)
+        df.to_csv("data/french_words.csv", mode='w', index=False,)
+
+        words_to_learn_df = df.copy()
+        words_to_learn_df.to_csv("data/words_to_learn.csv", mode='w', index=False)
         generate_words()
         
-        
-
-
-# def remove_word():
-#     if CHOSEN_WORD in dict:
-#         dict.remove(CHOSEN_WORD)
-#         new_word_dict = copy.deepcopy(list(CHOSEN_WORD.values()))
-
-#         # print(list(demoDictionary.values()))
-#         df = pd.DataFrame([new_word_dict])
-#         df.to_csv("data/words_to_learn.csv", mode='a', index=False, header=False)
-
-#         generate_words()
-
-#         print(f'{new_word_dict} aaaaa new dictionary' )
-#         print(df)
-   
-#     else:
-#         print("wala")
-
-
-
-
-
-
 
 window = Tk()
 window.title("Flash Card")
@@ -109,8 +108,9 @@ right_bt = PhotoImage(file="images/right.png")
 button_right = Button(image=right_bt, highlightthickness=0, command=remove_word)
 button_right.grid(column=2,row=2)
 
-generate_words()
 check_words_to_learn_exist()
+# generate_words()
+
 
 
 
@@ -126,4 +126,36 @@ window.mainloop()
 
 
 
+
+# def remove_words_to_learn():
+#     generate_words()
+#     df = pd.DataFrame(dict)
+#     df.to_csv("data/words_to_learn.csv", mode='w', index=False)
+#     dict = df.to_dict(orient="records")
+
+#     print(dict)
+    # if CHOSEN_WORD in dict:
+    #     dict.remove(CHOSEN_WORD)
+        
+
+        
+                
+
+
+# def remove_word():
+#     if CHOSEN_WORD in dict:
+#         dict.remove(CHOSEN_WORD)
+#         new_word_dict = copy.deepcopy(list(CHOSEN_WORD.values()))
+
+#         # print(list(demoDictionary.values()))
+#         df = pd.DataFrame([new_word_dict])
+#         df.to_csv("data/words_to_learn.csv", mode='a', index=False, header=False)
+
+#         generate_words()
+
+#         print(f'{new_word_dict} aaaaa new dictionary' )
+#         print(df)
+   
+#     else:
+#         print("wala")
 
