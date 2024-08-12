@@ -2,16 +2,11 @@ from tkinter import *
 import pandas as pd
 import random
 import os.path
-# from time import time
-# import copy
 
 BACKGROUND_COLOR = "#B1DDC6"
 countdown_timer = None
 DF = pd.read_csv('data/french_words.csv')
 dict = DF.to_dict(orient="records")
-
-
-
 
 CHOSEN_WORD = None
 CHOSEN_WORD_DICT = {}
@@ -30,10 +25,9 @@ def generate_words_to_learn():
     front_card()
     countdown_timer = window.after(3000,back_card)
     
-    print(f'{CHOSEN_WORD}')
+    # print(f'{CHOSEN_WORD}')
 
 def check_words_to_learn_exist():
-    global DF
     if os.path.exists(PATH) == True:
         print("naa")
         generate_words_to_learn()
@@ -41,19 +35,15 @@ def check_words_to_learn_exist():
         print("wala")
         generate_words()
 
-
-
 def back_card():
     canvas.itemconfig(card_title,text="English",fill="White")
     canvas.itemconfig(canvas_image, image = card_back)
     canvas.itemconfig(card_word,text=f"{CHOSEN_WORD['English']}", fill= "white")
 
-
 def front_card():
     canvas.itemconfig(card_title,text="French", fill="black")
     canvas.itemconfig(canvas_image, image = card_front)
     canvas.itemconfig(card_word,text=f"{CHOSEN_WORD['French']}", fill="black")
-
 
 def generate_words():
     global CHOSEN_WORD, countdown_timer
@@ -62,7 +52,7 @@ def generate_words():
     front_card()
     countdown_timer = window.after(3000,back_card)
     
-    print(f'{CHOSEN_WORD}')
+    # print(f'{CHOSEN_WORD}')
     # print(f'{type(CHOSEN_WORD)}')
     # print(f'{type(dict)}')
     # print(f'{dict}')
@@ -71,15 +61,10 @@ def generate_words():
     # print(f"{CHOSEN_WORD['English']}")
    
  
-
 def remove_word():
-    # check_words_to_learn_exist()
     if CHOSEN_WORD in dict:
         dict.remove(CHOSEN_WORD)
-        df = pd.DataFrame(dict)
-        df.to_csv("data/french_words.csv", mode='w', index=False,)
-
-        words_to_learn_df = df.copy()
+        words_to_learn_df = pd.DataFrame(dict)
         words_to_learn_df.to_csv("data/words_to_learn.csv", mode='w', index=False)
         generate_words()
         
@@ -109,7 +94,6 @@ button_right = Button(image=right_bt, highlightthickness=0, command=remove_word)
 button_right.grid(column=2,row=2)
 
 check_words_to_learn_exist()
-# generate_words()
 
 
 
